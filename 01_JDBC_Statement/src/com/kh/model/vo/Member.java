@@ -3,10 +3,9 @@ package com.kh.model.vo;
 import java.sql.Date;
 
 /*
- * * VO (Value Object)
- * 	 한 명의 회원(DB테이블의 한 행의 데이터들)에 대한 데이터들을 기록할 수 있는 저장용 객체
+ * * VO(Value Object)
+ * 	 한 명의 회원(DB 테이블의 한 행의 데이터들)에 대한 데이터들을 기록할 수 있는 저장용 객체
  */
-
 public class Member {
 	
 	// 필드부
@@ -18,11 +17,10 @@ public class Member {
 	private String gender;
 	private int age;
 	private String email;
-	private String phone;
+	private String phone; // int 하면 010 의 010 부분이 날아감
 	private String address;
 	private String hobby;
-	private Date enrollDate; //java.sql.Date import 해야됨!!
-	//DB컬럼보고 그대로 만들면 된다. -- 회원 자료를 만들기 위해서!!
+	private Date enrollDate; // java.sql.Date import 해야됨
 	
 	// 생성자부
 	// 기본생성자, 매개변수 생성자
@@ -43,6 +41,12 @@ public class Member {
 		this.hobby = hobby;
 		this.enrollDate = enrollDate;
 	}
+	
+	// 메소드부
+	
+	public int getUserNo() {
+		return userNo;
+	}
 
 	public Member(String userId, String userPwd, String userName, String gender, int age, String email, String phone,
 			String address, String hobby) {
@@ -56,11 +60,6 @@ public class Member {
 		this.phone = phone;
 		this.address = address;
 		this.hobby = hobby;
-	}
-
-	// 메소드부
-	public int getUserNo() {
-		return userNo;
 	}
 
 	public void setUserNo(int userNo) {
@@ -146,12 +145,16 @@ public class Member {
 	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
 	}
-
+	
+	// 메소드부
+	
 	@Override
 	public String toString() {
 		return "Member [userNo=" + userNo + ", userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName
 				+ ", gender=" + gender + ", age=" + age + ", email=" + email + ", phone=" + phone + ", address="
-				+ address + ", hobby=" + hobby + ", enrollDate=" + enrollDate + "]";
-	}
+				+ address + ", hobby=" + hobby + ", enrollDate=" + enrollDate + ", getClass()=" + getClass()
+			    + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 
+	
+	}
 }

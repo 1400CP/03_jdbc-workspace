@@ -37,9 +37,11 @@ public class MemberMenu {
 			sc.nextLine();
 			
 			switch(menu)	{
-			case 1 : inputMember(); break;
-			case 2 : mc.selectList(); break;
-			case 3 : String userId = inputMemberId();
+			case 1 : inputMember();
+					 break;
+			case 2 : mc.selectList();
+					 break;
+			case 3 : String userId = inputMemberId(); // 한줄로 줄일 수 있다. (case6번처럼)
 					 mc.selectByUserId(userId);
 					 break;
 			case 4 : String keyword = inputMemberName();
@@ -47,8 +49,12 @@ public class MemberMenu {
 					 break;
 			case 5 : updateMember();
 					 break;
-			case 6 : deleteMember();
-			 		 break;
+			case 6 : // String userId2 = inputMemberId();
+					 // mc.deleteMember(userId2);
+					 mc.deleteMember(inputMemberId()); // 소스를 간단하게 줄일 수 있는 방법
+					 break;
+			//case 6 : deleteMember();
+			// 		 break;
 			case 0 : System.out.println("이용해주셔서 감사합니다.");
 					 return;
 			default : System.out.println("메뉴를 잘못입력하셨습니다. 다시 입력해주세요.");
@@ -105,7 +111,7 @@ public class MemberMenu {
 	 * @return		사용자가 입력한 회원명(키워드)
 	 */
 	public String inputMemberName() {
-		System.out.println("\n 회원 이름(키워드) 입력 : ");
+		System.out.print("\n 회원 이름(키워드) 입력 : ");
 		return sc.nextLine();
 		
 	}
@@ -147,7 +153,7 @@ public class MemberMenu {
 	
 	
 	
-	// --------------------------  응답화면 ---------------------------------------------------------
+	// --------------------------------- 응답화면 ---------------------------------------------------------
 	
 	/**
 	 * 서비스 요청 처리 후 성공했을 경우 사용자가 보게 될 응답화면
@@ -177,7 +183,7 @@ public class MemberMenu {
 	 * @param list
 	 */
 	public void displayMemberList(ArrayList<Member> list) {
-		System.out.println("\n 조회된 데이터는 다음과 같습니다. \n");
+		System.out.println("\n조회된 데이터는 다음과 같습니다.\n");
 		
 		/* for loop문
 		for(int i=0; i<list.size(); i++) {
@@ -186,8 +192,7 @@ public class MemberMenu {
 		*/
 		
 		// for each문(향상된 for문)
-		
-		for(Member m : list ) { // m = list.get(0) => list.get(1) .....
+		for(Member m : list) { // m = list.get(0) => list.get(1) .....
 			System.out.println(m);
 		}
 	}
@@ -197,11 +202,9 @@ public class MemberMenu {
 	 * @return 사용자가 입력한 아이디값
 	 */
 	public String inputMemberId() {
-		System.out.print("\n검색할 유저아이디 :  ");
+		System.out.println("\n검색할 유저아이디 : ");
 		return sc.nextLine();
-		
 	}
-	
 	
 	/**
 	 * 조회 서비스 요청 시 조회 조회 결과가 한 행일 경우 사용자가 보게 될 응답화면

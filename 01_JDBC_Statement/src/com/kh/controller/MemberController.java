@@ -15,7 +15,7 @@ import com.kh.view.MemberMenu;
 //				해당 메소드로 전달된 데이터 [가공처리 한 후] Dao로 전달하면서 호출하는 역할
 //              Dao로 부터 반환 받은 결과에 따라 성공인지 실패인지 판단 후 응답화면 결정(View 메소드 호출)
 public class MemberController {
-
+	
 	/** 
 	 * 사용자가 회원 추가 요청을 처리해주는 메소드 
 	 * @param userId   : 사용자가 입력했던 정보들이 담겨있는 매개변수 
@@ -59,9 +59,9 @@ public class MemberController {
 		ArrayList<Member> list = new MemberDao().selectList();
 	
 	// 조회 결과가 있는지 없는지 판단 한 후 사용자가 보게될 응답화면 결정
-	if(list.isEmpty()) { // 텅 비어있을 경우 == 조회된 데이터 없었을 경우
+	if(list.isEmpty()) { 					// 텅 비어있을 경우 == 조회된 데이터 없었을 경우
 			new MemberMenu().displayNoData("전체 조회 결과가 없습니다");
-		}else { // 뭐라도 조회된 데이터가 있을 경우
+		}else { 							// 뭐라도 조회된 데이터가 있을 경우
 			new MemberMenu().displayMemberList(list);
 		}					
 	}													
@@ -128,7 +128,7 @@ public class MemberController {
 		
 	}
 
-	
+	/*
 	public void deleteMember(String userId) {
 		Member m = new Member();
 		m.setUserId(userId);
@@ -143,6 +143,25 @@ public class MemberController {
 		
 		
 	}
+	*/
 	
+	/**
+	 * 회원 탈퇴 요청 처리해주는 메소드
+	 * @param userId	사용자가 입력한 탈퇴시키고자 하는 회원 아이디값
+	 */
+	public void deleteMember(String userId) {
+		
+		int result = new MemberDao().deleteMember(userId);
+		
+		if (result > 0) {	// 성공
+			new MemberMenu().displaySuccess("성공적으로 탈퇴했습니다.");
+		}else {				// 실패
+			new MemberMenu().displayFail("실패했습니다. 다시 시도하세요.");
+		}
+		
+		
+		
+		
+	}
 	
 }

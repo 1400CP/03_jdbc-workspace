@@ -50,13 +50,13 @@ public class MemberDao {
 		Statement stmt = null;    // "완성된 sql(실제값이 다 채워진상태로)"문 전달해서 곧바로 실행 후 결과 받는 객체`               
 		
 		// 실행할 sql문 (완성된 형태로 만들어두기)
-		// INSERT INTO MEMBER VALUES(SEQ_USERNO.NETVAL, 'userId', 'userPwd', 'userName', 'gender', age , 'email', 'phone', 'address', 'hobby', [SYSDATE]);
+		// INSERT INTO MEMBER VALUES(SEQ_USERNO.NEXTVAL, 'userId', 'userPwd', 'userName', 'gender', age , 'email', 'phone', 'address', 'hobby', [SYSDATE]);
 		String sql = "INSERT INTO MEMBER VALUES(SEQ_USERNO.NEXTVAL," 
 						+ "'" + m.getUserId() + "', "
 						+ "'" + m.getUserPwd() + "', "
 						+ "'" + m.getUserName() + "', "
 						+ "'" + m.getGender() + "', "
-						      + m.getAge() + ", "
+							  + m.getAge() + ", "
 						+ "'" + m.getEmail()  + "', "
 						+ "'" + m.getPhone() + "',"
 						+ "'" + m.getAddress() + "', "
@@ -124,7 +124,7 @@ public class MemberDao {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			// 2) Connection 객체 생성
 			
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","JDBC","JDBC");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","JDBC","JDBC");
 			
 			// 3) Statement 객체생성
 			stmt = conn.createStatement();
@@ -181,15 +181,11 @@ public class MemberDao {
 	public Member selectByUserId(String userId) {
 		// select문(한행) => ResultSet => Member객체
 		
-		
-		
 		Member m = null;
 		
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
-		
-		
 		
 		String sql = "SELECT  * FROM MEMBER WHERE userId = '" + userId + "'";
 		
@@ -349,6 +345,7 @@ public class MemberDao {
 				
 	}				
 	
+/*
 	public int deleteMember(Member m) {
 		
 		int result = 0;
@@ -356,11 +353,11 @@ public class MemberDao {
 		Connection conn = null;
 		Statement stmt = null;
 		
-		/*
-		 * DELETE
-			FROM MEMBER
-			WHERE USERID = 'xxxx'
-		 */
+		
+		// DELETE
+		// FROM MEMBER
+		// WHERE USERID = 'xxxx'
+		
 		
 		String sql = "DELETE FROM MEMBER WHERE USERID = '" + m.getUserId() + "'";
 				
@@ -393,5 +390,54 @@ public class MemberDao {
 		
 		return result;
 	}
+*/
+	
+	/**
+	 * 사용자가 입력한 아이디값 전달받아서 회원 탈퇴시켜주는 메소드
+	 * @param userId	사용자가 입력한 아이디값
+	 * @return			처리된 행 수
+	 */
+	public int deleteMember(String userId) {
+		/* DELETE FROM MEMBER WHERE USERID = '사용자가 입력한 아이디값' */
+		// delete문 => 처리된 행수(int) => 트랜젝션 처리
+		
+		int result = 0;
+		
+		Connection conn = null;
+		Statement stmt = null;
+		
+		String sql = "DELETE FROM MEMBER WHERE USERID = '" + userId + "'";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "JDBC", "JDBC");
+			stmt = conn.createStatement(); // conn을 빼먹으면 stmt는 null 값이 출력된다.
+			
+			result = stmt.executeUpdate(sql); // 나중에 쿼리를 빼먹으면 영원히 result는 0으로 돌아간다.
+			
+			if (result > 0) {
+				conn.commit();	// 접속정보, conn을 빼먹으면 안 되겠죠?
+			}else {
+				conn.rollback();
+			}
+			
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return result;
+		
+	}
+	
 	
 }

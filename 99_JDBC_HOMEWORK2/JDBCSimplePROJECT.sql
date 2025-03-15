@@ -1,0 +1,48 @@
+CREATE TABLE COPY_EMP
+AS SELECT *
+    FROM EMPLOYEE_COPY;
+DROP SEQUENCE SEQ_EMPNO;
+CREATE SEQUENCE SEQ_EMPNO
+        START WITH 300;
+        NOCACHE;
+COMMIT;
+    
+-- 사원추가
+INSERT INTO COPY_EMP
+VALUES(SEQ_EMPNO, EMP_NAME, EMP_NO, EMAIL, PHONE, DEPT_CODE, JOB_CODE,
+SAL_LEVEL, SALARY, BONUS, MANAGER_ID, HIRE_DATE, ENT_DATE, ENT_YN);
+
+-- 사원전체조회
+SELECT * FROM COPY_EMP;
+
+-- 사용자 변경
+UPDATE COPY_EMP
+SET EMAIL
+    , PHONE
+    , SALARY
+WHERE EMP_ID =    
+    
+-- 과제제출용
+SELECT *
+FROM COPY_EMP
+WHERE EMP_NAME LIKE '이용훈';
+    
+-- 사원전체조회
+SELECT * FROM COPY_EMP;    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

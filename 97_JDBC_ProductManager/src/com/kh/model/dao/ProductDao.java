@@ -1,0 +1,194 @@
+package com.kh.model.dao;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import com.kh.model.vo.Product;
+
+import static com.kh.common.JDBCTemplate.*;
+
+public class ProductDao {
+	
+	private Properties prop = new Properties();
+	
+	public ProductDao() {
+		
+		try {
+			prop.loadFromXML(new FileInputStream("resources/query.xml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public ArrayList<Product> selectProduct(Connection conn) {
+		// 전체조회 ArrayList => ResultSet
+		
+		ArrayList<Product> list = new ArrayList<Product>();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		// SELECT PRODUCT_ID, P_NAME, PRICE, DESCRIPTION, STOCK FROM PRODUCT
+		String sql = prop.getProperty("selectProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Product(rset.getString("PRODUCT_ID"),
+									 rset.getString("P_NAME"),
+									 rset.getInt("PRICE"),
+									 rset.getString("DESCRIPTION"),
+									 rset.getInt("STOCK")
+									));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
+	public int insertProduct(Connection conn, Product pd) {
+		// insert => 처리된 행 수(int) => 트랜젝션 (service 처리)
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		// INSERT INTO PRODUCT (PRODUCT_ID, P_NAME, PRICE, DESCRIPTION, STOCK)
+		// VALUES (?, ?, ?, ?, ?)
+		String sql = prop.getProperty("insertProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pd.getpId());
+			pstmt.setString(2, pd.getpName());
+			pstmt.setInt(3, pd.getPrice());
+			pstmt.setString(4, pd.getDes());
+			pstmt.setInt(5, pd.getStock());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public int updateProduct(Connection conn, Product pd) {
+		// update => 처리된 행 수(int) => 트랜젝션(Service)
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		// UPDATE PRODUCT
+		// SET PRODUCT_ID, P_NAME, PRICE, DESCRIPTION, STOCK
+		// WHERE PRODUCT_ID = ?;
+		String sql = prop.getProperty("updateProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pd.getpName());
+			pstmt.setInt(2, pd.getPrice());
+			pstmt.setString(3, pd.getDes());
+			pstmt.setInt(4, pd.getStock());
+			pstmt.setString(5, pd.getpId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public int deleteProduct(Connection conn, String pId) {
+		// delete => 처리된 행수(int) => 트랜젝션 (Service)
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		// DELETE FROM PRODUCT WHERE PRODUCT_ID = ?
+		String sql = prop.getProperty("deleteProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pId);
+			
+			result = pstmt.executeUpdate();
+					
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public Product searchProduct(Connection conn, String pName) {
+		//select => 한 행, ResultSet => Array 필요? 아니요.
+		
+		Product pd = null;
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		// SELECT PRODUCT_ID, P_NAME, PRICEM, DESCRIPTION, STOCK
+		// FROM PRODUCT
+		// WHERE P_NAME = ?;
+		String sql = prop.getProperty("searchProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pName);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+					pd = new Product(rset.getString("PRODUCT_ID"),
+									rset.getString("P_NAME"),
+									rset.getInt("PRICE"),
+									rset.getString("DESCRIPTION"),
+									rset.getInt("STOCK")
+							);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return pd;
+		
+	}
+	
+
+}

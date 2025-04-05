@@ -1,0 +1,94 @@
+package com.kh.model.vo;
+
+import java.util.Objects;
+
+public class Product {
+	
+	private String pId;		//PRODUCT_ID
+	private String pName;	//P_NAME
+	private int price;		//PRICE
+	private String des;		//DESCRIPTION
+	private int stock;		//STOCK
+	
+	
+	public Product(String pId, String pName, int price, String des, int stock) {
+		super();
+		this.pId = pId;
+		this.pName = pName;
+		this.price = price;
+		this.des = des;
+		this.stock = stock;
+	}
+
+
+	public String getpId() {
+		return pId;
+	}
+
+
+	public void setpId(String pId) {
+		this.pId = pId;
+	}
+
+
+	public String getpName() {
+		return pName;
+	}
+
+
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
+
+
+	public int getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+
+	public String getDes() {
+		return des;
+	}
+
+
+	public void setDes(String des) {
+		this.des = des;
+	}
+
+
+	public int getStock() {
+		return stock;
+	}
+
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(des, pId, pName, price, stock);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(des, other.des) && Objects.equals(pId, other.pId) && Objects.equals(pName, other.pName)
+				&& price == other.price && stock == other.stock;
+	}
+	
+
+}

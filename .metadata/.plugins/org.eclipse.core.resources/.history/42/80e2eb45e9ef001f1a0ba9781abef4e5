@@ -1,0 +1,8 @@
+package com.kh.notice.dao;
+
+public class NoticeDao {
+
+	public NoticeDao() {}
+	
+	
+}

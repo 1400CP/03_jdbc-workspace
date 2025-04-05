@@ -1,0 +1,100 @@
+package com.kh.model.service;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import com.kh.model.dao.ProductDao;
+import com.kh.model.vo.Product;
+import com.kh.view.ProductMenu;
+
+import static com.kh.common.JDBCTemplate.*;
+
+public class ProductService {
+	
+	public ArrayList<Product> selectProduct() {
+		// ArrayList, driver, connection 처리
+		Connection conn = driver();
+		ArrayList<Product> list = new ProductDao().selectProduct(conn);
+		
+		if(list.isEmpty()) {
+			rollback(conn);
+		}else {
+			commit(conn);
+		}
+		close(conn);
+		return list;
+	}
+	
+	
+	public int insertProduct (Product pd) {
+		// driver, Connection 처리
+		Connection conn = driver();
+		int result = new ProductDao().insertProduct(conn, pd);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	
+	public int updateProduct (Product pd) {
+		// driver, Connection 처리
+		Connection conn = driver();
+		int result = new ProductDao().updateProduct(conn, pd);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+		
+	}
+	
+	
+	public int deleteProduct(String pId) {
+		//driver, Connection 처리
+		Connection conn = driver();
+		int result = new ProductDao().deleteProduct(conn, pId);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+		
+	}
+	
+	
+	public Product searchProduct(String pName) {
+		//driver, Connection 처리
+		Connection conn = driver();
+		Product pd = new ProductDao().searchProduct(conn, pName);
+		
+		if(pd == null) {
+			rollback(conn);
+		}else {
+			commit(conn);
+		}
+		close(conn);
+		return pd;
+		
+	}
+	
+	
+	//case6_1
+	public void selectAll() {
+		//ArrayList, driver, Connection
+		Connection conn = driver();
+		new ProductDao().selectAll(conn);
+		
+	}
+
+}

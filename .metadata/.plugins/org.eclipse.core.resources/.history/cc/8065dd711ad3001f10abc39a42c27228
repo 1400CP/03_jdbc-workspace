@@ -1,0 +1,163 @@
+package com.kh.employee.model.vo;
+
+import java.sql.Date;
+
+public class Employee {
+	// 필드부, 생성자, 메소드부
+	private int empId;			//EMP_ID
+	private String empName;		//EMP_NAME
+	private String empNo;		//EMP_NO
+	private String email;		//EMAIL
+	private String phone;		//PHONE
+	private String dCode;		//DEPT_CODE
+	private String jCode;		//JOB_CODE
+	private String salLevel;	//SAL_LEVEL
+	private int salary;			//SALARY
+	private double bonus;		//BONUS
+	private int mngId;			//MANAGER_ID
+	private Date hDate;		//HIRE_DATE
+	private Date eDate;		//ENT_DATE
+	private String eYn;			//ENT_YN
+	
+	public Employee() {}
+
+	public Employee(int empId, String empName, String empNo, String email, String phone, String dCode, String jCode,
+			String salLevel, int salary, double bonus, int mngId, String hDate, String eDate, String eYn) {
+		super();
+		this.empId = empId;
+		this.empName = empName;
+		this.empNo = empNo;
+		this.email = email;
+		this.phone = phone;
+		this.dCode = dCode;
+		this.jCode = jCode;
+		this.salLevel = salLevel;
+		this.salary = salary;
+		this.bonus = bonus;
+		this.mngId = mngId;
+		this.hDate = hDate;
+		this.eDate = eDate;
+		this.eYn = eYn;
+	}
+
+	public int getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
+	public String getEmpNo() {
+		return empNo;
+	}
+
+	public void setEmpNo(String empNo) {
+		this.empNo = empNo;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getdCode() {
+		return dCode;
+	}
+
+	public void setdCode(String dCode) {
+		this.dCode = dCode;
+	}
+
+	public String getjCode() {
+		return jCode;
+	}
+
+	public void setjCode(String jCode) {
+		this.jCode = jCode;
+	}
+
+	public String getSalLevel() {
+		return salLevel;
+	}
+
+	public void setSalLevel(String salLevel) {
+		this.salLevel = salLevel;
+	}
+
+	public int getSalary() {
+		return salary;
+	}
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
+	public double getBonus() {
+		return bonus;
+	}
+
+	public void setBonus(double bonus) {
+		this.bonus = bonus;
+	}
+
+	public int getMngId() {
+		return mngId;
+	}
+
+	public void setMngId(int mngId) {
+		this.mngId = mngId;
+	}
+
+	public String gethDate() {
+		return hDate;
+	}
+
+	public void sethDate(String hDate) {
+		this.hDate = hDate;
+	}
+
+	public String geteDate() {
+		return eDate;
+	}
+
+	public void seteDate(String eDate) {
+		this.eDate = eDate;
+	}
+
+	public String geteYn() {
+		return eYn;
+	}
+
+	public void seteYn(String eYn) {
+		this.eYn = eYn;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empId=" + empId + ", empName=" + empName + ", empNo=" + empNo + ", email=" + email
+				+ ", phone=" + phone + ", dCode=" + dCode + ", jCode=" + jCode + ", salLevel=" + salLevel + ", salary="
+				+ salary + ", bonus=" + bonus + ", mngId=" + mngId + ", hDate=" + hDate + ", eDate=" + eDate + ", eYn="
+				+ eYn + "]";
+	}
+
+}

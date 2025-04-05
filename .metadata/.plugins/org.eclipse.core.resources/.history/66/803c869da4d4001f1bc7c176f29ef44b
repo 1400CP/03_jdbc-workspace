@@ -1,0 +1,25 @@
+package com.kh.employee.service;
+
+import static com.kh.employee.common.JDBCTemplate.*;
+
+import java.sql.Connection;
+
+import com.kh.employee.common.JDBCTemplate;
+import com.kh.employee.model.vo.Employee;
+
+public class EmployeeService {
+	
+	public int insertEmployee(Employee e) {
+		int result = new EmployeeDao().insertEmployee();
+		Connection conn = getConnection();
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+	
+
+}

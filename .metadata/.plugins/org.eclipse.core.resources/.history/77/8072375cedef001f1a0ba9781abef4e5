@@ -1,0 +1,14 @@
+package com.kh.notice.service;
+
+import java.sql.Connection;
+
+import com.kh.common.JDBCTemplate;
+
+public class NoticeService {
+	
+	public void selectNoticeList() {
+		Connection conn = JDBCTemplate.getConnection();
+		
+	}
+
+}

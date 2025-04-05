@@ -1,0 +1,87 @@
+package com.kh.employee.controller;
+
+import java.util.ArrayList;
+
+import com.kh.employee.model.dao.EmployeeDao;
+import com.kh.employee.model.vo.Employee;
+import com.kh.employee.view.EmployeeMenu;
+
+public class EmployeeController {
+	
+	
+	public void insertEmployee(String empName, String empNo, String email, String phone, String dCode, String jCode, String salLevel, String salary, String bonus, String mngId, String hDate, String eDate, String eYn) {
+		
+		Employee e = new Employee();
+		e.setEmpName(empName);
+		e.setEmpNo(empNo);
+		e.setEmail(email);
+		e.setPhone(phone);
+		e.setdCode(dCode);
+		e.setjCode(jCode);
+		e.setSalLevel(salLevel);
+		e.setSalary(Integer.parseInt(salary));
+		e.setBonus(Double.parseDouble(bonus));
+		e.setMngId(Integer.parseInt(mngId));
+		e.sethDate(hDate);
+		e.seteDate(eDate);
+		e.seteYn(eYn);
+		
+		int result = new EmployeeDao().insertEmployee(e);
+		
+		if (result > 0) {
+			new EmployeeMenu().displaySuccess("성공적으로 추가되었습니다.");
+		}else {
+			new EmployeeMenu().displayFail("실패하였습니다. 다시 시도하세요.");
+		}
+		
+	}
+	
+	
+	public void selectList() {
+		ArrayList<Employee> list = new EmployeeDao().selectList();
+
+	if(list.isEmpty()) { 							// 텅 비어있을 경우 == 조회된 데이터 없었을 경우
+			new EmployeeMenu().displayNoData("전체 조회 결과가 없습니다");
+		}else { 									// 뭐라도 조회된 데이터가 있을 경우
+			new EmployeeMenu().displayEmployeeList(list);
+		}					
+	}
+	
+	
+	public void updateEmployee(String empId, String email, String phone, String salary) {
+		Employee e = new Employee();
+		e.setEmpId(Integer.parseInt(empId));
+		e.setEmail(email);
+		e.setPhone(phone);
+		e.setSalary(Integer.parseInt(salary));
+		
+		int result = new EmployeeDao().updateEmployee(e);
+		
+		if (result > 0) {
+			new EmployeeMenu().displaySuccess("수정되었습니다.");
+		}else {
+			new EmployeeMenu().displayFail("재시도해주세요.");
+		}
+		
+		
+	}
+	
+	
+	public void deleteEmployee(String empId) {
+		
+		Employee e = new Employee();
+		e.setEmpId(Integer.parseInt(empId));
+		
+		int result = new EmployeeDao().deleteEmployee(e);
+		
+		if (result > 0) {
+			new EmployeeMenu().displaySuccess("성공적으로 회원 정보가 변경되었습니다.");
+		}else {
+			new EmployeeMenu().displayFail("다시 입력");
+		}
+		
+		
+	}
+	
+	
+}

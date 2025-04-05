@@ -1,0 +1,256 @@
+package com.kh.employee.model.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import com.kh.employee.model.vo.Employee;
+
+public class EmployeeDao {
+	
+	
+	public int insertEmployee(Connection conn, Employee e) {
+		//insert => 삽입, 참조된 행(int) => 트랜젝션
+		int result = 0;
+		
+		
+		PreparedStatement pstmt = null;
+		
+		// INSERT INTO COPY_EMP
+		// VALUES(SEQ_EMPNO.NEXTVAL, ?, ?, ?,
+		//			?, ?, ?, ?,
+		//			?, ?, ?, ?, ?, ?);
+		/*String sql = "INSERT INTO COPY_EMP VALUES (SEQ_EMPNO.NEXTVAL,"
+						+ "'" + e.getEmpName() + "', "
+						+ "'" + e.getEmpNo() + "', "
+						+ "'" + e.getEmail() + "', "
+						+ "'" + e.getPhone() + "', "
+						+ "'" + e.getdCode() + "', "
+						+ "'" + e.getjCode() + "', "
+						+ "'" + e.getSalLevel() + "', "
+						+ "'" + e.getSalary() + "', "
+						+ "'" + e.getBonus() + "', "
+						+ "'" + e.getMngId() + "', "
+						+ "'" + e.gethDate() + "', "
+						+ "'" + e.geteDate() + "', "
+						+ "'" + e.geteYn() + "')";
+		*/
+		String sql = "INSERT INTO COPY_EMP VALUES(SEQ_EMPNO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "kh", "kh");
+			conn.setAutoCommit(false);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, e.getEmpName());
+			pstmt.setString(2, e.getEmpNo());
+			pstmt.setString(3, e.getEmail());
+			pstmt.setString(4, e.getPhone());
+			pstmt.setString(5, e.getdCode());
+			pstmt.setString(6, e.getjCode());
+			pstmt.setString(7, e.getSalLevel());
+			pstmt.setInt(8, e.getSalary());
+			pstmt.setDouble(9, e.getBonus());
+			pstmt.setInt(10, e.getMngId());
+			pstmt.setString(11, e.gethDate());
+			pstmt.setString(12, e.geteDate());
+			pstmt.setString(13, e.geteYn());
+
+			result = pstmt.executeUpdate();
+			
+			if (result > 0) {
+				conn.commit();
+			}else {
+				conn.rollback();
+			}
+			
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	
+	public ArrayList<Employee> selectList(Connection conn) {
+		// select => 전체 조회, 배열 ArrayList, ResultSet
+		
+		ArrayList<Employee> list = new ArrayList<Employee>();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = "SELECT * FROM COPY_EMP";
+				
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "kh", "kh");
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Employee(rset.getInt("EMP_ID"),
+									rset.getString("EMP_NAME"),
+									rset.getString("EMP_NO"),
+									rset.getString("EMAIL"),
+									rset.getString("PHONE"),
+									rset.getString("DEPT_CODE"),
+									rset.getString("JOB_CODE"),
+									rset.getString("SAL_LEVEL"),
+									rset.getInt("SALARY"),
+									rset.getDouble("BONUS"),
+									rset.getInt("MANAGER_ID"),
+									rset.getString("HIRE_DATE"),
+									rset.getString("ENT_DATE"),
+									rset.getString("ENT_YN")));
+			}
+				/*Employee e = new Employee();
+				
+				e.setEmpId(rset.getInt("EMP_ID"));
+				e.setEmpName(rset.getString("EMP_NAME"));
+				e.setEmpNo(rset.getString("EMP_NO"));
+				e.setEmail(rset.getString("EMAIL"));
+				e.setPhone(rset.getString("PHONE"));
+				e.setdCode(rset.getString("DEPT_CODE"));
+				e.setjCode(rset.getString("JOB_CODE"));
+				e.setSalLevel(rset.getString("SAL_LEVEL"));
+				e.setSalary(rset.getInt("SALARY"));
+				e.setBonus(rset.getDouble("BONUS"));
+				e.setMngId(rset.getInt("MANAGER_ID"));
+				e.sethDate(rset.getString("HIRE_DATE"));
+				e.seteDate(rset.getString("ENT_DATE"));
+				e.seteYn(rset.getString("ENT_YN"));
+				
+				list.add(e);
+				*/
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rset.close();
+				pstmt.close();
+				conn.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+		
+	}
+	
+	
+	public int updateEmployee(Connection conn, Employee e) {
+		// update => 수정, 참조된 행 수(int) => 트랜젝션
+		
+		int result = 0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		/*
+		 * UPDATE COPY_EMP SET EMAIL = ?, PHONE = ? , SALARY = ? WHERE EMP_ID = ?
+		 */
+		
+		String sql = "UPDATE COPY_EMP SET EMAIL = ?, PHONE = ? , SALARY = ? WHERE EMP_ID = ?";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "kh", "kh");
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, e.getEmail());
+			pstmt.setString(2, e.getPhone());
+			pstmt.setInt(3, e.getSalary());
+			pstmt.setInt(4, e.getEmpId());
+			
+			result = pstmt.executeUpdate();
+			
+			if(result > 0) {
+				conn.commit();
+			}else {
+				conn.rollback();
+			}
+			
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public int deleteEmployee(String empId) {
+		// delete => 참조된 행 수 (int) => 트랜젝션
+		int result = 0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		// "DELETE FROM COPY_EMP WHERE EMP_ID = ?"
+		String sql = "DELETE FROM COPY_EMP WHERE EMP_ID = ?";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "kh", "kh");
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, empId);
+			
+			result = pstmt.executeUpdate();
+			
+			if(result > 0) {
+				conn.commit();
+			}else {
+				conn.rollback();
+			}
+			
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
+		return result;
+		
+	}
+	
+	
+}

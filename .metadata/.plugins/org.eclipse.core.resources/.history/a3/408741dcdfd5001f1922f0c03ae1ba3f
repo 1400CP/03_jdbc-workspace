@@ -1,0 +1,31 @@
+package com.kh.controller;
+
+import com.kh.model.vo.Book;
+import com.kh.view.BookMenu;
+
+public class BookController {
+	public void inputBookMenu(String bNo, String title, String author, String publisher, String price, String description) {
+		Book b = new Book();
+		b.setbNo(bNo);
+		b.setTitle(title);
+		b.setAuthor(author);
+		b.setPublisher(publisher);
+		b.setPrice(Integer.parseInt(price));
+		b.setDescription(description);
+		
+		int result = new BookService().inputBookMenu(b);
+		
+		if(result > 0) {
+			new BookMenu().displaySuccess("추가 성공");
+		}else {
+			new BookMenu().displayFail("입력 실패. 다시 시도해주세요.");
+		}
+		
+	}
+	
+	
+	public void MagazineMenu(String bNo, String title, String author, String publisher, String price, String description, year, month) {
+		
+	}
+
+}

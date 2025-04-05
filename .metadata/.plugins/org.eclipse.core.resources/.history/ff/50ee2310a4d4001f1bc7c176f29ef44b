@@ -1,0 +1,12 @@
+package com.kh.employee.service;
+
+public class EmployeeService {
+	
+	public void insertEmployee(Employee e) {
+		
+		
+		
+	}
+	
+
+}

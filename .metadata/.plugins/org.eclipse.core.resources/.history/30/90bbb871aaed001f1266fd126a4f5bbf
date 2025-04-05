@@ -1,0 +1,18 @@
+package com.kh.member.dao;
+
+import java.io.FileInputStream;
+import java.util.Properties;
+
+public class MemberDao {
+	
+	private Properties prop = new Properties();
+	
+	public MemberDao() {
+		String filePath = MemberDao.class.getResource("/db/sql/member-mapper.xml").getPath();
+	
+		prop.loadFromXML(new FileInputStream(filePath));
+		// xml파일은 따로 지정해야 함.
+	
+	}
+
+}

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;04_JDBC_Properties/resources/test.properties&apos; to &apos;driver.properties&apos;" description="Rename resource &apos;test.properties&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="resources/test.properties" name="driver.properties" stamp="1737333852467" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;04_JDBC_Properties/resources/test.xml&apos; to &apos;query.xml&apos;" description="Rename resource &apos;test.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="resources/test.xml" name="query.xml" stamp="1737337508146" updateReferences="true"/>
+</session>

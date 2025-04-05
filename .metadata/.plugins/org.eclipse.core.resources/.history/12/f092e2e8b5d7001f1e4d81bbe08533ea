@@ -1,0 +1,102 @@
+package com.kh.controller;
+
+import java.util.ArrayList;
+
+import com.kh.model.service.ProductService;
+import com.kh.model.vo.Product;
+import com.kh.model.vo.ProductIO;
+import com.kh.view.ProductMenu;
+
+public class ProductController {
+	
+	// case 1
+	public void selectProduct() {
+		// 전부 조회하기 위해서 필요한 물품들
+		// select => 전부 => ArrayList	
+		
+		ArrayList<Product> list = new ProductService().selectProduct();
+		
+		if(list.isEmpty()) {
+			new ProductMenu().displayNoData("조회 실패");
+		}else {
+			new ProductMenu().displayProductList(list);
+		}
+		
+		
+	}
+	
+	
+	// case 2
+	public void insertProduct(String pId, String pName, String price, String des, String stock) {
+		// 추가하기 insert into => product에 전부 넣기. 테이블 컬럼!
+		Product pd = new Product(pId, pName, Integer.parseInt(price), des, Integer.parseInt(stock));
+
+		int result = new ProductService().insertProduct(pd);
+		
+		if(result > 0) {
+			new ProductMenu().displaySuccess("데이터 추가 성공이요");
+		}else {
+			new ProductMenu().displayFail("실패요. 다시 시도해 주세욤.");
+		}
+		
+	}
+	
+	
+	// case 3
+	public void updateProduct(String pId, String pName, String price, String des, String stock) {
+		
+		Product pd = new Product(pId, pName, Integer.parseInt(price), des, Integer.parseInt(stock));
+		
+		int result = new ProductService().updateProduct(pd);
+		
+		if(result > 0) {
+			new ProductMenu().displaySuccess("수정 완료");
+		}else {
+			new ProductMenu().displayFail("실패요. 다시.");
+		}
+		
+		
+	}
+	
+	
+	// case 4
+	public void deleteProduct(String pId) {
+		int result = new ProductService().deleteProduct(pId);
+		
+		if(result > 0) {
+			new ProductMenu().displaySuccess("성공적으로 삭제");
+		}else {
+			new ProductMenu().displayFail("실패, 다시 시도");
+		}
+		
+	}
+	
+	
+	// case 5
+	public void searchProduct(String pName) {
+		//select
+		Product pd = new ProductService().searchProduct(pName);
+		
+		if(pd == null) {
+			new ProductMenu().displayFail("실패, 재시도ㄱㄱ");
+		}else {
+			new ProductMenu().displayProduct(pd);
+		}
+		
+	}
+	
+	//case6_1, 전체 입출고 내역 조회	
+	public void selectAll() {
+		//ArrayList
+		ArrayList<ProductIO> list = new ProductService().selectAll();
+		
+		if(list.isEmpty()) {
+			new ProductMenu().displayNoData("조회 실패");
+		}else {
+			
+		}
+		
+		
+	}
+
+}

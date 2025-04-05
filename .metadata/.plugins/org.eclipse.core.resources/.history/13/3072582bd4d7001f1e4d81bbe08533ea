@@ -1,0 +1,220 @@
+package com.kh.view;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import com.kh.controller.ProductController;
+import com.kh.model.vo.ProductIO;
+
+public class ProductMenu {
+	
+	Scanner sc = new Scanner(System.in);
+	private ProductController pc = new ProductController();
+	
+	public void mainMenu() {
+		
+		while(true) {
+		
+			System.out.println("\n====== 메뉴 실행 ======");
+			System.out.println("1. 전체 조회하기");
+			System.out.println("2. 상품 추가하기");
+			System.out.println("3. 상품 수정하기"); // 상품 id로 조회하고 수정
+			System.out.println("4. 상품 삭제하기"); // 상품 id로 조회해서 삭제
+			System.out.println("5. 상품 검색하기"); // 상품 이름으로 키워드 검색
+			System.out.println("6. 상품 입출고 메뉴");
+			System.out.println("0. 프로그램 종료하기");
+			
+			System.out.print("> 메뉴를 선택하세요 : ");
+			int menu = sc.nextInt();
+			sc.nextLine();
+			
+			switch(menu) {
+			
+			case 1 : pc.selectProductIO();
+					 break;
+				
+			case 2 : insertProductIO();
+					 break;
+					 
+			case 3 : updateProductIO();
+					 break;
+				
+			case 4 : pc.deleteProductIO(productId());
+					 break;
+				
+			case 5 : pc.searchProductIO(productName());
+					 break;
+			
+			case 6 : searchStatus();
+					 break;
+				
+			case 0 :
+					 System.out.println("프로그램을 종료합니다. 이용해주셔서 감사합니다.");
+					 return;
+				
+			default :
+				System.out.println("입력을 잘못하였습니다. 다시 시도해 주시기 바랍니다.");
+			
+			}
+		
+		}
+		
+	}
+	
+	
+	public void insertProductIO() {
+		System.out.println("\n====== 상품 추가하기 ======");
+		System.out.print("상품ID : ");
+		String productId = sc.nextLine();
+		System.out.print("개수 : ");
+		String amount = sc.nextLine();
+		System.out.print("상태 : ");
+		String status = sc.nextLine();
+		
+		pc.insertProductIO(productId, amount, status);
+		
+	}
+	
+	public void updateProductIO() {
+		System.out.println("\n====== 상품 수정하기 ======");
+	
+		System.out.print("상품ID : ");
+		String productId = sc.nextLine();
+	
+		System.out.print("상품 개수 : ");
+		String amount = sc.nextLine();
+		
+		System.out.print("상태 : ");
+		String status = sc.nextLine();
+		
+		
+		pc.updateProductIO(productId, amount, status);
+			
+	}
+		
+	
+	public void searchStatus() {
+		System.out.println("\n====== 상품 입출고 메뉴 =======");
+		System.out.println("1. 전체 입출고 내역 조회");
+		System.out.println("2. 입고 내역만 조회");
+		System.out.println("3. 출고 내역만 조회");
+		System.out.println("4. 상품 입고 --> 입고할 상품ID와 입고수량 입력받기");
+		System.out.println("5. 상품 출고 --> 출고할 상품ID와 출고수량 입력받기");
+		System.out.println("9. 메인 메뉴로 돌아가기");
+		
+		System.out.print("> 메뉴를 선택하세요 : ");
+		int menu = sc.nextInt();
+		sc.nextLine();
+		
+		switch(menu) {
+		
+		case 1 : pc.selectAll();
+				 break;
+		// 전체 입출고 내역 조회	
+		case 2 : pc.selectIn();
+				 break;
+				 
+		case 3 : pc.selectOut();
+				 break;
+			
+		case 4 : insertStatus();
+				 break;
+			
+		case 5 : outputStatus();
+				 break;
+		
+		case 9 : new ProductMenu().mainMenu();
+				 break;
+						
+		default :
+			System.out.println("입력을 잘못하였습니다. 다시 시도해 주시기 바랍니다.");
+		
+		}
+		
+	}
+	
+	
+	public void insertStatus() {
+		System.out.println("\n======= 상품 입고 =======");
+		System.out.print("입고할 상품ID : ");
+		String productId = sc.nextLine();
+		System.out.print("입고수량 : ");
+		String amount = sc.nextLine();
+		
+		pc.insertStatus(productId, amount);
+	}
+		
+	
+	public void outputStatus() {
+		System.out.println("\n======= 상품 출고 =======");
+		System.out.print("출고할 상품ID : ");
+		String productId = sc.nextLine();
+		System.out.print("출고수량 : ");
+		String amount = sc.nextLine();
+		
+		pc.outputStatus(productId, amount);
+	}
+	
+	// ======================== 응답 화면 ===============================
+	
+	public void displaySuccess(String message) {
+		System.out.println("서비스 성공 : " + message);
+	}
+	
+	public void displayFail(String message) {
+		System.out.println("서비스 실패 : " + message);
+		
+	}
+	
+	public void displayNoData(String Message) {
+		System.out.println("서비스 실패 : " + Message);
+	}
+	
+	public String productId() {
+		System.out.print("상품ID를 입력하세요 : ");
+		return sc.nextLine();
+		
+	}
+	
+	public String productName() {
+		System.out.print("상품 이름을 입력하세요 : ");
+		return sc.nextLine();
+		
+	}
+	
+//	public void displayProductList(ArrayList<Product> list) {
+//		System.out.println("\n 조회된 데이터는 다음과 같습니다. \n");
+//		
+//		/*
+//		for(int i=0; i<list.size(); i++) {
+//			System.out.println(list.get(i));
+//		}
+//		*/
+//		for(Product pd : list) {
+//			System.out.println(pd);
+//		}
+//	}
+	
+	public void displayProductIOList(ArrayList<ProductIO> list) {
+		System.out.println("\n 조회된 데이터는 다음과 같습니다. \n");
+		
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+//		for(Product pd : list) {
+//			System.out.println(pd);
+//		}
+	}
+	
+//	public void displayProduct(Product p) {
+//		System.out.println("\n조회된 데이터는 다음과 같습니다.\n");
+//		System.out.println(p);
+//	}
+	
+	public void displayProductIO(ProductIO pi) {
+		System.out.println("\n조회된 데이터는 다음과 같습니다.\n");
+		System.out.println(pi);
+		
+	}
+
+}

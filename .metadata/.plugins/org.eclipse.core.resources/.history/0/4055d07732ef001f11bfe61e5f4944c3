@@ -1,0 +1,62 @@
+package com.kh.member.service;
+
+import java.sql.Connection;
+
+import static com.kh.common.JDBCTemplate.*;
+import com.kh.member.dao.MemberDao;
+import com.kh.member.vo.Member;
+
+public class MemberService {
+	
+	public Member loginMember(String userId, String userPwd) {
+		Connection conn = getConnection();
+		
+		Member m = new MemberDao().loginMember(conn, userId, userPwd);
+		
+		close(conn);
+		return m;
+	}
+	
+	public int insertMember(Member m) { // (매개변수에 생성자 담기)
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().insertMember(conn, m);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+	
+	public Member updateMember(Member m) { // (매개변수에 Member m)
+		Connection conn = getConnection();
+		int result = new MemberDao().updateMember(conn, m);
+		
+		// 갱신된 회원 객체를 담을 변수
+		Member updateMem = null;
+		
+		if(result > 0) {
+			commit(conn); // db에는 확정이 됐지만, loginUser에는 아직 이전 로긴 값(데이터)
+			// 갱신된 회원 객체 다시 조회
+			updateMem = new MemberDao().selectMember(conn, m.getUserId()); 
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn); // 안하면 db lock 걸릴 수도 있다. 중요함.
+		
+		return updateMem; // 반환형은 내가 돌려줄, 보여줄 것으로 유동적으로.
+		// null 또는 갱신된 회원 객체
+	}
+	
+	public void updatePwdMember() {
+		
+		
+	}
+
+}

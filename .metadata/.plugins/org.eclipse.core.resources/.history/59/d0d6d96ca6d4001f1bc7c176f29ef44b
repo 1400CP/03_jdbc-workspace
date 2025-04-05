@@ -1,0 +1,52 @@
+package com.kh.employee.service;
+
+import static com.kh.employee.common.JDBCTemplate.*;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import com.kh.employee.common.JDBCTemplate;
+import com.kh.employee.model.dao.EmployeeDao;
+import com.kh.employee.model.vo.Employee;
+
+public class EmployeeService {
+	
+	public int insertEmployee(Employee e) {
+		Connection conn = getConnection();
+		
+		int result = new EmployeeDao().insertEmployee(conn, e);
+		
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+	
+	
+	public ArrayList<Employee> selectList() {
+		Connection conn = getConnection();
+		ArrayList<Employee> list = new EmployeeDao().selectList(conn);
+		
+		if(list.isEmpty()) {
+			rollback(conn);
+		}else {
+			commit(conn);
+		}
+		
+		return list;
+	}
+	
+	
+	public void updateEmployee(Employee e) {
+		Connection conn = getConnection();
+		new EmployeeDao().updateEmployee(conn, e);
+		
+		
+		
+	}
+	
+
+}

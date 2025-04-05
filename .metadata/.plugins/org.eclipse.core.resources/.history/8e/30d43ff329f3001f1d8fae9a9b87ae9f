@@ -1,0 +1,17 @@
+package com.kh.board.service;
+
+import java.sql.Connection;
+
+import static com.kh.common.JDBCTemplate.*;
+
+public class BoardService {
+	
+	public ArrayList<Board> selectList(PageInfo pi) {
+		Connection conn = getConnection();
+		ArrayList<Board> list = new BoardDao().selectList(conn, pi);
+		close(conn);
+		return ArrayList<Board>;
+		
+	}
+
+}

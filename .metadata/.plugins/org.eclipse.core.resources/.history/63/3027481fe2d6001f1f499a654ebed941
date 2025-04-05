@@ -1,0 +1,13 @@
+package com.kh.common;
+
+import java.sql.Connection;
+
+public class JDBCTemplate {
+	
+	Connection conn = null;
+	PreparedStatement = null;
+	
+	
+	
+
+}

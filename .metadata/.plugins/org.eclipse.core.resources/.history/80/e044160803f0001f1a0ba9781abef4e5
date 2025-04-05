@@ -1,0 +1,56 @@
+package com.kh.notice.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class NoticeInsertController
+ */
+@WebServlet("/insert.no")
+public class NoticeInsertController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public NoticeInsertController() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		// 인코딩처리해야함 - post니까
+		request.setCharacterEncoding("utf-8");
+		
+		String noticeTitle = request.getParameter("title");
+		String noticeContent = request.getParameter("content");
+		
+		// 로그인을 한 회원 정보를 얻어내는 방법
+		// 1. input type을 hidden으로 숨겨 가져오기
+		// 2. session 영역에 담겨있는 회원객체로 뽑기, 요걸로 가자
+		
+		HttpSession session = request.getSession();
+		
+		int userNo = 
+		
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

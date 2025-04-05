@@ -1,0 +1,17 @@
+package com.kh.notice.service;
+
+import java.sql.Connection;
+
+import com.kh.notice.dao.NoticeDao;
+
+import static com.kh.common.JDBCTemplate.*;
+
+public class NoticeService {
+	
+	public void selectNoticeList() {
+		Connection conn = getConnection();
+		new NoticeDao().selectNoticeList();
+		
+	}
+
+}

@@ -1,0 +1,15 @@
+package com.kh.controller;
+
+import static com.kh.common.JDBCTemplate.*;
+import com.kh.model.vo.Book;
+
+public class BookService {
+	
+	public void inputBookMenu(Book b) {
+		getConnection();
+		
+		new BookDao().inputBookMenu(b);
+		
+	}
+
+}

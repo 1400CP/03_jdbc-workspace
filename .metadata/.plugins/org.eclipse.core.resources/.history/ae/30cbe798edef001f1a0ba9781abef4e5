@@ -1,0 +1,29 @@
+package com.kh.notice.dao;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class NoticeDao {
+	
+	private Properties prop = new Properties(); // 전역변수
+
+	public NoticeDao() { // 기본생성자 => 쿼리를 읽어와야 함, 
+//		prop.loadFromXML(new FileInputStream(읽어드리고자 하는 xml 파일 경로)); // xml은 전용이 있으니까 반드시 이것으로!
+		try {
+			prop.loadFromXML(new FileInputStream(NoticeDao.class.getResource("/db/sql/notice-mapper.xml").getPath()));
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} // 실제로는 WebContent에 올라감.
+	}
+	
+	public void selectNoticeList() {
+		
+		
+		
+	}
+	
+	
+}

@@ -1,0 +1,16 @@
+package com.kh.board.dao;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import com.kh.common.model.vo.PageInfo;
+import static com.kh.common.JDBCTemplate.*;
+
+public class BoardDao {
+	
+	public ArrayList<Board> selectList(Connection conn, PageInfo pi){
+		//select문 => ResultSet
+		
+	}
+
+}

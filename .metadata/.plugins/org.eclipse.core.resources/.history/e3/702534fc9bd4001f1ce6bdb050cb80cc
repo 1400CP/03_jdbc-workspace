@@ -1,0 +1,98 @@
+package com.kh.model.service;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import static com.kh.common.JDBCTemplate.*;
+import com.kh.model.dao.MemberDao;
+import com.kh.model.vo.Member;
+import com.kh.view.MemberMenu;
+
+public class MemberService {
+	
+	public int insertMember(Member m) {
+		// jdbc driver 등록
+		// Connection 객체 생성
+		Connection conn = getConnection();
+		int result = new MemberDao().insertMember(conn, m);
+		// 실제 DB를 돌리는 건 Dao라서 conn 전달해야 한다.
+		
+		// 6) 트랜젝션 처리
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+		
+	}
+	
+	// case 6
+	public int deleteMember(String userId) {
+		// jdbc driver, Connection
+		Connection conn = getConnection();
+		int result = new MemberDao().deleteMember(conn, userId);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+		
+	}
+	
+	// case 2
+	public ArrayList<Member> selectList() {
+		// jdbc driver, Connection
+		Connection conn = getConnection();
+		ArrayList<Member> list = new MemberDao().selectList(conn);
+		
+		if(list.isEmpty()) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return list;
+		
+	}
+	
+	// case 3
+	public Member selectByUserId(String userId) {
+		Connection conn = /*JDBCTemplate.*/getConnection();
+		Member m = new MemberDao().selectByUserId(conn, userId);
+		
+		if(m == null) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return m;
+	}
+	
+	// case 4
+	public ArrayList<Member> selectByUserName(String keyword) {
+		Connection conn = getConnection();
+		ArrayList<Member> list = new MemberDao().selectByUserName(conn, keyword);
+		
+		close(conn);
+		return list;
+		
+	}
+	
+	// case 5
+	public void updateMember(Member m) {
+		
+	}
+
+}

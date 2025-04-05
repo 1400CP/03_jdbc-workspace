@@ -1,0 +1,11 @@
+package com.kh.member.service;
+
+import com.kh.common.JDBCTemplate;
+
+public class MemberService {
+	
+	public void loginMember(String userId, String userPwd) {
+		Connection conn = JDBCTemplate.getConnection();
+	}
+
+}

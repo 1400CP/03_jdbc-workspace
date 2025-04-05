@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- 
+		* 회원 서비스
+		
+		* 공지사항 서비스
+		
+		* 일반게시판 서비스
+		
+		* 사진게시판 서비스
+	 -->
+
+</body>
+</html>

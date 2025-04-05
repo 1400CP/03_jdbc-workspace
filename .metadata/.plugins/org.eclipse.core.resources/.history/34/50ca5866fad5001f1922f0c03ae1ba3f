@@ -1,0 +1,23 @@
+package com.kh.run;
+
+import java.util.Scanner;
+
+import com.kh.view.BookMenu;
+
+public class Run {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		Boolean bkOrMaga = sc.nextBoolean();
+		
+		System.out.println(bkOrMaga);
+		
+		// new EmployeeMenu().mainMenu();
+		new BookMenu().mainMenu();
+		
+
+
+	}
+
+}

@@ -1,0 +1,21 @@
+package com.kh.controller;
+
+import com.kh.model.vo.Book;
+
+public class BookService {
+	
+	public void inputBookMenu(String bNo, String title, String author, String publisher, String price, String description, String bkOrMaga) {
+		
+		Book b = new Book();
+		b.setbNo(bNo);
+		b.setTitle(title);
+		b.setAuthor(author);
+		b.setPublisher(publisher);
+		b.setPrice(Integer.parseInt(price));
+		b.setDescription(description);
+		
+		
+		
+	}
+
+}

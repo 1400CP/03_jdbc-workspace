@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+<comment>properties Test</comment>
+
+	<entry key="selectProductIO">
+	
+		SELECT
+			 	IO_NUM
+			  , PRODUCT_ID
+			  , IO_DATE
+			  , AMOUNT
+			  , STATUS
+		  FROM
+		  		PRODUCT_IO
+	</entry>
+	
+	
+	<entry key="insertProductIO">
+		INSERT INTO
+			PRODUCT_IO
+				(
+				IO_NUM
+				, PRODUCT_ID
+				, IO_DATE
+				, AMOUNT
+				, STATUS
+				)
+			 VALUES
+			 	(
+			 	  SEQ_IO.NEXTVAL
+			 	, ?
+			 	, ?
+			 	, ?
+			 	, ?
+			 	)
+	</entry>
+	
+	
+	<entry key="updateProductIO">
+		 UPDATE
+				PRODUCT_IO
+			SET
+				PRODUCT_ID = ?
+				, IO_DATE = ?
+				, AMOUNT = ?
+				, STATUS = ?
+		 WHERE PRODUCT_ID = ?
+	</entry>
+	
+	
+	<entry key="deleteProductIO">
+		DELETE
+		FROM
+			 PRODUCT
+		WHERE
+			 PRODUCT_ID = ?
+	</entry>
+	
+	
+	<entry key="searchProductIO">
+		SELECT
+				IO_NUM
+				, PRODUCT_ID
+				, IO_DATE
+				, AMOUNT
+				, STATUS
+		FROM
+				PRODUCT_IO
+		WHERE
+				productName = ?
+	</entry>
+	
+	
+</properties>

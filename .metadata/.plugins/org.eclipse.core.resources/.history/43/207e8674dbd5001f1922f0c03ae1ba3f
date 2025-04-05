@@ -1,0 +1,13 @@
+package com.kh.controller;
+
+import com.kh.model.vo.Book;
+
+public class BookService {
+	
+	public void inputBookMenu(Book b) {
+	
+		new BookDao().inputBookMenu(b);
+		
+	}
+
+}

@@ -1,0 +1,318 @@
+package com.kh.model.dao;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import com.kh.model.vo.ProductIO;
+
+import static com.kh.common.JDBCTemplate.*;
+
+public class ProductDao {
+	
+	private Properties prop = new Properties();
+	
+	public ProductDao() {
+		
+		try {
+			prop.loadFromXML(new FileInputStream("resources/query.xml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public ArrayList<ProductIO> selectProductIO(Connection conn) {
+		// 전체조회 ArrayList => ResultSet
+		
+		ArrayList<ProductIO> list = new ArrayList<ProductIO>();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		// SELECT PRODUCT_ID, P_NAME, PRICE, DESCRIPTION, STOCK FROM PRODUCT
+		String sql = "SELECT * FROM PRODUCT_IO";
+		// prop.getProperty("selectProductIO");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new ProductIO(
+										rset.getInt("IO_NUM"),
+									 	rset.getString("PRODUCT_ID"),
+									 	rset.getString("IO_DATE"),
+									 	rset.getInt("AMOUNT"),
+									 	rset.getString("STATUS")
+									 ));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
+	public int insertProductIO(Connection conn, ProductIO pd) {
+		// insert => 처리된 행 수(int) => 트랜젝션 (service 처리)
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		// "INSERT INTO PRODUCT_IO (IO_NUM, PRODUCT_ID, IO_DATE, AMOUNT, STATUS) VALUES (SEQ_IO.NEXTVAL, ?, ?, ?, ?)"
+		String sql = "INSERT INTO PRODUCT_IO (IO_NUM, PRODUCT_ID, IO_DATE, AMOUNT, STATUS) VALUES (SEQ_IO.NEXTVAL, PRODUCT_ID = ?, DEFAULT, AMOUNT = ?, STATUS = ?)";
+		// prop.getProperty("insertProductIO");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pd.getProductId());
+			pstmt.setInt(2, pd.getAmount());
+			pstmt.setString(3, pd.getStatus());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public int updateProductIO(Connection conn, ProductIO pd) {
+		// update => 처리된 행 수(int) => 트랜젝션(Service)
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("updateProductIO");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pd.getProductId());
+			pstmt.setString(2, pd.getIoDate());
+			pstmt.setInt(3, pd.getAmount());
+			pstmt.setString(4, pd.getStatus());
+			pstmt.setString(5, pd.getProductId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public int deleteProductIO(Connection conn, String productId) {
+		// delete => 처리된 행수(int) => 트랜젝션 (Service)
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		// DELETE FROM PRODUCT WHERE PRODUCT_ID = ?
+		String sql = prop.getProperty("deleteProductIO");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productId);
+			
+			result = pstmt.executeUpdate();
+					
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public ProductIO searchProductIO(Connection conn, String productName) {
+		//select => 한 행, ResultSet => Array 필요? 아니요.
+		
+		ProductIO pd = null;
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		// SELECT PRODUCT_ID, P_NAME, PRICEM, DESCRIPTION, STOCK
+		// FROM PRODUCT
+		// WHERE P_NAME = ?;
+		String sql = prop.getProperty("searchProductIO");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productName);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+					pd = new ProductIO(rset.getInt("IO_NUM"),
+									rset.getString("PRODUCT_ID"),
+									rset.getString("IO_DATE"),
+									rset.getInt("AMOUNT"),
+									rset.getString("STATUS")
+							);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return pd;
+		
+	}
+	
+	
+	//case6_1 전체 입출고 내역 조회
+	public ArrayList<ProductIO> selectAll(Connection conn) {
+		ArrayList<ProductIO> list = new ArrayList<ProductIO>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "SELECT * FROM PRODUCT_IO";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	//case6_2
+	public ArrayList<ProductIO> selectIn(Connection conn) {
+		ArrayList<ProductIO> list = new ArrayList<ProductIO>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "SELECT * FROM PRODUCT_IO WHERE STATUS = '입고'";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	//case6_3
+	public ArrayList<ProductIO> selectOut(Connection conn) {
+		ArrayList<ProductIO> list = new ArrayList<ProductIO>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "SELECT * FROM PRODUCT_IO WHERE STATUS = '출고'";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	//case6_4 상품 입고, insert임.
+	public int insertStatus(Connection conn, String productId, String amount) {
+		// insert => 참조된 행 수(int) => 트랜젝션(Service)
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+				
+		String sql = "INSERT INTO PRODUCT_IO(IO_NUM, PRODUCT_ID, IO_DATE, AMOUNT, STATUS) VALUES (SEQ_IO.NEXTVAL, ?, DEFAULT, ?, '입고')";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productId);
+			pstmt.setString(2, amount);	
+						
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	//case6_5 상품 입고, insert임.
+	public int outputStatus(Connection conn, String productId, String amount) {
+		// insert => 참조된 행 수(int) => 트랜젝션(Service)
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+				
+		String sql = "INSERT INTO PRODUCT_IO(IO_NUM, PRODUCT_ID, IO_DATE, AMOUNT, STATUS) VALUES (SEQ_IO.NEXTVAL, ?, DEFAULT, ?, '출고')";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productId);
+			pstmt.setString(2, amount);	
+						
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+
+}

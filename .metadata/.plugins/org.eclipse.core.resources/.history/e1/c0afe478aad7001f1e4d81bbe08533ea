@@ -1,0 +1,12 @@
+package com.kh.model.vo;
+
+public class ProductIO {
+	
+	private ioNum;
+	private productId;
+	private productName;
+	private ioDate;
+	private amount;
+	private status;
+
+}

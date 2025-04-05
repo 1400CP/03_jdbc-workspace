@@ -1,0 +1,62 @@
+package com.kh.notice.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.kh.notice.service.NoticeService;
+import com.kh.notice.vo.Notice;
+
+/**
+ * Servlet implementation class NoticeDetailController
+ */
+@WebServlet("/detail.no")
+public class NoticeDetailController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public NoticeDetailController() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int noticeNo = Integer.parseInt(request.getParameter("num")); // num의 data값이 숫자가 나오도록 하도록, 해당 게시글의 번호가 int가 나오도록
+		// 클릭할 때 조회수 증가
+		int result = new NoticeService().increaseCount(noticeNo);
+		if(result > 0) { // 성공 == 조회가능한 공지사항 o
+			
+			// 해당 공지사항 조회용 서비스
+			Notice n = new NoticeService().selectNotice(noticeNo);
+			
+			request.setAttribute("notice", n);
+			request.getRequestDispatcher("views/notice/noticeDetailView.jsp").forward(request, response);;
+			// 처음보는 거니까 리퀘스트
+			
+			
+		}else { // 실패 == 조회 불가능한 공지사항
+			// 에러페이지로 이동
+			request.setAttribute("errorMsg", "공지사항 조회 실패욤");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			// 포워딩을 반드시 해야 한다. (그래야 날라간다.)
+		}
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

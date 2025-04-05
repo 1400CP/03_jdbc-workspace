@@ -1,0 +1,10 @@
+package com.kh.notice.service;
+
+public class NoticeService {
+	
+	public void selectNoticeList() {
+		
+		
+	}
+
+}

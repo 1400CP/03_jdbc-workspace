@@ -1,0 +1,23 @@
+package com.kh.member.dao;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class MemberDao {
+	
+	private Properties prop = new Properties();
+	
+	public MemberDao() {
+		String filePath = MemberDao.class.getResource("/db/sql/member-mapper.xml").getPath();
+		// xml파일은 따로 지정해야 함.
+		try {
+			prop.loadFromXML(new FileInputStream(filePath)); // 이 파일을 읽지요? new 할때마다 새롭게 읽지요?
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	
+	}
+
+}

@@ -1,0 +1,89 @@
+package com.kh.model.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import static com.kh.common.JDBCTemplate.*;
+import com.kh.model.vo.Book;
+import com.kh.model.vo.Magazine;
+
+public class BookDao {
+	
+	public int inputBookMenu(Connection conn, Book b) {
+		// input(추가) => 추가된 행 수(int) => 트랙젝선 (service)
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		// INSERT INTO BOOK VALUES (?, ?, ?, ?, ?, ?)
+		String sql = "INSERT INTO BOOK VALUES (SEQ_BNO.NEXTVAL, ?, ?, ?, ?, ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, b.getTitle());
+			pstmt.setString(2, b.getAuthor());
+			pstmt.setString(3, b.getPublisher());
+			pstmt.setInt(4, b.getPrice());
+			pstmt.setString(5, b.getDescription());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	public int inputMagazineMenu(Connection conn, Magazine m) {
+		// input(추가) => 추가된 행 수(int) => 트랙젝선 (service)
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		// INSERT INTO BOOK VALUES (?, ?, ?, ?, ?, ?)
+		String sql = "INSERT INTO MAGAZINE VALUES (SEQ_BNO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m.getTitle());
+			pstmt.setString(2, m.getAuthor());
+			pstmt.setString(3, m.getPublisher());
+			pstmt.setInt(4, m.getPrice());
+			pstmt.setString(5, m.getDescription());
+			pstmt.setInt(6, m.getYear());
+			pstmt.setInt(7, m.getMonth());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	// case 3_1
+	public void selectBNo(Connection conn, Book b) {
+		// select => 한 행 조회 => ResultSet, book b
+		Book b = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "";
+		
+		pstmt = conn.prepareStatement(sql);
+		
+		
+		
+		
+	}
+
+}

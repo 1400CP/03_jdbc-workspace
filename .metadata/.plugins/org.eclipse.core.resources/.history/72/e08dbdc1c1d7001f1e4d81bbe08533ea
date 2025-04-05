@@ -1,0 +1,93 @@
+package com.kh.model.vo;
+
+import oracle.sql.DATE;
+
+public class ProductIO {
+	
+	private int ioNum;
+	private String productId;
+	private String productName;
+	private DATE ioDate;
+	private int amount;
+	private String status;
+	
+	
+	public ProductIO(int ioNum, String productId, String productName, DATE ioDate, int amount, String status) {
+		super();
+		this.ioNum = ioNum;
+		this.productId = productId;
+		this.productName = productName;
+		this.ioDate = ioDate;
+		this.amount = amount;
+		this.status = status;
+	}
+
+
+	public int getIoNum() {
+		return ioNum;
+	}
+
+
+	public void setIoNum(int ioNum) {
+		this.ioNum = ioNum;
+	}
+
+
+	public String getProductId() {
+		return productId;
+	}
+
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+
+	public String getProductName() {
+		return productName;
+	}
+
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+
+	public DATE getIoDate() {
+		return ioDate;
+	}
+
+
+	public void setIoDate(DATE ioDate) {
+		this.ioDate = ioDate;
+	}
+
+
+	public int getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+	@Override
+	public String toString() {
+		return "ProductIO [ioNum=" + ioNum + ", productId=" + productId + ", productName=" + productName + ", ioDate="
+				+ ioDate + ", amount=" + amount + ", status=" + status + "]";
+	}
+
+	
+}

@@ -1,0 +1,306 @@
+package com.kh.view;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import com.kh.controller.BookController;
+import com.kh.controller.BookService;
+import com.kh.model.vo.Book;
+import com.kh.model.vo.Magazine;
+
+public class BookMenu {
+	
+	private Scanner sc = new Scanner(System.in);
+	
+	private BookController bc = new BookController();
+	
+	/*
+	public static void printBooks(ArrayList<Book> bs) {
+		BookController bc = new BookController();
+		
+		for(Book b : bs) {
+			bc.addBook(b);
+			System.out.println(b);
+		}
+	*/
+	public void mainMenu() {
+		
+		boolean flag = true; // 메뉴 스위치
+	
+		while (flag == true) { // 메뉴 스위치가 켜져있는 동안 무한반복
+			System.out.println("===============================");
+			System.out.println("KH 우리반전용 도서관 관리 페이지입니다.");
+			System.out.println("1. 추가하기");
+			System.out.println("2. 조회하기");
+			System.out.println("3. 책 찾기");
+			System.out.println("4. 전체책 가격 합계 및 평균 조회");
+			System.out.println("5. 프로그램 종료");
+			System.out.println("===============================");
+
+			System.out.print(">> 메뉴번호를 입력해주세요 : ");
+			int menu = sc.nextInt();
+			sc.nextLine();
+			
+			switch(menu) {
+			case 1 : inputBookMenu();
+					break;
+			case 2 : selectList();
+					// bc.selectList(); 아직입니다.
+					break;
+			case 3 : selectBookMenu();
+					break;
+			case 4 : selectBookprice();
+					break;
+			case 5 : System.out.println("이용해주셔서 감사합니다.");
+					return;
+			default : System.out.println("메뉴를 잘못입력하셨습니다. 다시 입력해주세요.");
+	
+			}
+			
+		}
+		
+	}
+			/*
+			if (search == 1) {
+				System.out.println(bc.getAllBook());
+				
+			} else if (search == 2) {
+				System.out.println(bc.onlySearchBook());
+
+			} else if (search == 3) {
+				ArrayList<Book> magazineList = bc.onlySearchMagazine();
+				
+				for(Book b : magazineList) {
+					System.out.println(b);
+				}
+				
+			} else if (search == 4) {
+				flag = true;
+			}
+			
+			break;
+			*/
+			
+	public void inputBookMenu() {
+		
+		System.out.println("\n====책 추가====");
+		
+		System.out.print("책 제목을 입력하세요 : ");
+		String title = sc.nextLine();
+		
+		System.out.print("작가를 입력하세요 : ");
+		String author = sc.nextLine();
+		
+		System.out.print("출판사를 입력하세요 : ");
+		String publisher = sc.nextLine();
+		
+		System.out.print("가격을 입력하세요 : ");
+		String price = sc.nextLine();
+		
+		System.out.print("간단한 설명을 입력하세요 : ");
+		String description = sc.nextLine();
+		
+		System.out.println("일반도서인 경우 t, 잡지인 경우 f를 입력하세요 : ");
+		String bm = sc.nextLine();
+		
+		if(bm.equals("t")) {
+			bc.inputBookMenu(title, author, publisher, price, description);
+		}else {
+			System.out.print("출간 연도를 입력하세요 : ");
+			String year = sc.nextLine();
+			
+			System.out.print("출간 월을 입력하세요 : ");
+			String month = sc.nextLine();
+			bc.inputMagazineMenu(title, author, publisher, price, description, year, month);
+		}
+		
+	}
+
+	
+	public void selectList() {
+		
+		System.out.println("===============================");
+		System.out.println("어떤 방법으로 책을 조회하겠습니까?");
+		System.out.println("1. 도서관 전체 소장책 조회하기");
+		System.out.println("2. 일반도서만 조회하기(잡지 제외)");
+		System.out.println("3. 잡지만 조회하기(일반도서 제외)");
+		System.out.println("4. 이전으로");
+		System.out.println("===============================");
+		System.out.print(">> 메뉴번호를 입력해주세요 : ");
+		int menu = sc.nextInt();
+		sc.nextLine();
+		
+		switch(menu) {
+		
+		case 1 : bc.selectList1();
+				break;
+				
+		case 2 : bc.selectList2();
+				break;
+				
+		case 3 : bc.selectList3();
+				break;
+				
+		case 4 : new BookMenu().mainMenu();
+				return;
+				
+		default : System.out.println("잘못입력하셨습니다. 다시 입력해주세요.");
+		
+		}
+		
+	
+	
+	}
+	
+	public void selectBookMenu() {
+		
+		System.out.println("===============================");
+		System.out.println("어떤 방법으로 책을 찾겠습니까?");
+		System.out.println("1. bNo으로 책 찾기");
+		System.out.println("2. 책 제목으로 책 찾기");
+		System.out.println("3. 출간연도로 잡지 찾기");
+		System.out.println("4. 출판사로 책 찾기");
+		System.out.println("5. 특정 가격 밑으로 책 찾기");
+		System.out.println("6. 이전으로");
+		System.out.println("===============================");
+		System.out.print(">> 메뉴번호를 입력해주세요 : ");
+		
+		int menu = sc.nextInt();
+		sc.nextLine();
+		switch(menu) {
+		
+		case 1 :		// 1. bNo으로 책 찾기"
+			System.out.print("bNo을 입력하세요 : ");
+			String bNo = sc.nextLine();
+			bc.selectBNo(bNo);
+			break;
+			
+		case 2 :		// 2. 책 제목으로 책 찾기
+			System.out.print("책 제목을 입력하세요 : ");
+			String title = sc.nextLine();
+			bc.selectTitle(title);
+			break;
+		
+		case 3 :			// 3. 출간연도로 잡지 찾기
+			System.out.print("출간연도를 입력하세요 : (올해 --> 2024) : ");
+			String year = sc.nextLine();
+			bc.selectYear(year);
+			break;
+		
+			
+		case 4 : 			// 4. 출판사로 책 찾기 (책 제목 찾기랑 똑같다)
+			System.out.print("출판사를 입력하세요 : ");
+			String publisher = sc.nextLine();
+			bc.selectPs(publisher);
+			break;
+			
+		case 5 : 			// 5. 특정 가격 밑으로 책 찾기
+			System.out.print("가격을 입력하세요 : ");
+			String price = sc.nextLine();
+			bc.selectPrice(price);
+			break;
+			
+		case 6 :			// 6. 이전으로
+			new BookMenu().mainMenu();
+			return;
+			
+		default : System.out.println("잘못 입력하셨습니다.");
+		
+		}
+		
+	}
+		
+	
+	public void selectBookprice() {
+
+		System.out.println("\n====== 전체 책 가격 조회 ======");
+		System.out.println("1. 전체 책 가격 합계");
+		System.out.println("2. 전체 책 가격 평균");
+		System.out.println("=============================");
+		System.out.print(">> 메뉴번호를 입력해주세요 : ");
+		int menu = sc.nextInt();
+		sc.nextLine();
+		
+		switch(menu) {
+			case 1 :
+				bc.getTotalPrice();
+			break;
+			
+			case 2 :
+				bc.getAvgPrice(price);
+			break;
+			
+			default :
+				System.out.println("잘못 입력하셨습니다.");
+		}
+
+	}
+	
+	
+	// ==================== 응답 화면 ========================
+	/**
+	 * 서비스 요청 처리 후 성공했을 경우 사용자가 보게 될 응답화면
+	 * @param message 성공 메세지
+	 */
+	public void displaySuccess(String message) {
+		System.out.println("\n 서비스 요청 성공 : " + message);
+	}
+	
+	
+	/** 서비스 요청 처리 후 실패했을 경우 사용자가 보게 될 응답 화면
+	 * @param message 실패 메세지
+	 */
+	public void displayFail(String message) {
+		System.out.println("\n 서비스 요청 실패 : " + message);
+	}
+	
+	
+	/**
+	 * 조회 서비스 요청시 조회 결과가 없을 경우 사용자가 보게 될 응답화면
+	 * @param message
+	 */
+	public void displayNoData(String message) {
+		System.out.println("\n" + message);
+	}
+	
+	
+	/**
+	 * 조회 서비스 요청시 조회 결과가 여러 행일 경우 사용자가 보게 될 응답화면
+	 * @param list
+	 */
+	public void displayBookList(ArrayList<Book> list) {
+		System.out.println("\n조회된 데이터는 다음과 같습니다.\n");
+		/* for loop문
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		*/
+		
+		// for each문(향상된 for문)
+		for(BookMenu b : list) { // e = list.get(0) => list.get(1) .....
+			System.out.println(b);
+		}
+	}
+	
+	
+	/** 
+	 * 사용자에게 회원 아이디 입력 받은 후 그때 입력된 값을 반환시켜주는 메소드
+	 * @return 사용자가 입력한 아이디값
+	 */
+	public String inputBookNo() {
+		System.out.print("책번호 : ");
+		return sc.nextLine();
+	}
+	
+	
+	/**
+	 * 조회 서비스 요청 시 조회 조회 결과가 한 행일 경우 사용자가 보게 될 응답화면
+	 * @param e
+	 */
+	public void displayBookList(Book b) {
+		System.out.println("\n조회된 데이터는 다음과 같습니다.\n");
+		System.out.println(b);
+	}
+	
+
+}

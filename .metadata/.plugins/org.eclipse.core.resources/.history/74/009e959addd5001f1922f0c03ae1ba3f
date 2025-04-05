@@ -1,0 +1,19 @@
+package com.kh.controller;
+
+import static com.kh.common.JDBCTemplate.*;
+
+import java.sql.Connection;
+
+import com.kh.model.dao.BookDao;
+import com.kh.model.vo.Book;
+
+public class BookService {
+	
+	public void inputBookMenu(Book b) {
+		Connection conn = getConnection();
+		
+		int resert = new BookDao().inputBookMenu(conn, b);
+		
+	}
+
+}

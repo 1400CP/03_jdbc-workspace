@@ -1,0 +1,27 @@
+package com.kh.controller;
+
+import static com.kh.common.JDBCTemplate.*;
+
+import java.sql.Connection;
+
+import com.kh.model.dao.BookDao;
+import com.kh.model.vo.Book;
+import com.kh.view.BookMenu;
+
+public class BookService {
+	
+	public void inputBookMenu(Book b) {
+		Connection conn = getConnection();
+		
+		int result = new BookDao().inputBookMenu(conn, b);
+		
+		if(result > 0 ) {
+			new BookMenu().displaySuccess("추가 성공");
+		}else {
+			
+		}
+			
+		
+	}
+
+}

@@ -1,0 +1,15 @@
+package com.kh.notice.dao;
+
+import java.util.Properties;
+
+public class NoticeDao {
+	
+	private Properties prop = new Properties(); // 전역변수
+
+	public NoticeDao() { // 기본생성자 => 쿼리를 읽어와야 함, 
+		prop.loadFromXML(null); // xml은 전용이 있으니까 반드시 이것으로!
+		
+	}
+	
+	
+}

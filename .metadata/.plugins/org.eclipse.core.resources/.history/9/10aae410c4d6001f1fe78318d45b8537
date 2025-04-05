@@ -1,0 +1,43 @@
+package test;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import java.util.Scanner;
+
+public class TestRun {
+
+	public static void main(String[] args) {
+		
+		// Properties 복습
+		/*
+		 * * Properties 특징
+		 * - Map 계열 컬렉션 (Key + Value 세트로 담는 특징)
+		 * - Key, value 모두 String(문자열)으로 담기
+		 *   setProperty(String key, String value)
+		 *   getProperty(String key) : String(value)
+		 * 
+		 * 
+		 */
+		
+		
+		
+		
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+

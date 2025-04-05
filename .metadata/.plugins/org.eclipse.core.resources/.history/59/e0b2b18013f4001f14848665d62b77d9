@@ -1,0 +1,77 @@
+package com.kh.board.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+
+/**
+ * Servlet implementation class BoardInsertController
+ */
+@WebServlet("/insert.bo")
+public class BoardInsertController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public BoardInsertController() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		
+		// String boardTitle = request.getParameter("title");
+		// String category = request.getParameter("category");
+		// 일반방식이 아닌 multipart/form-data로 전송하는 경우
+		// request로부터 값을 뽑는 것이 불가능하다.
+		
+		// enctype이 multipart/form-data로 잘 전송되었을 경우
+		// 전반적인 내용들이 수행되도록 if문 수행해보자.
+		if(ServletFileUpload.isMultipartContent(request)) {
+			// 이건 하면 제대로 된 파일이 아닐 경우 전송이 안 되니까!
+			// 하면 좋은 것이다
+			// 파일 업로드를 위한 라이브러리 : cos.jar(com.oreilly.servlet의 약자)
+			// http://www.servlet.com에서 다운로드
+			
+			// 1. 전달되는 파일을 처리할 작업 내용 (전달되는 파일의 용량 제한, 전달된 파일을 저장시킬 경로)
+			// 1_1) 전달되는 파일의 용량 제한 (int maxSize) => 10Mbyte
+			// byte단위
+			/*
+			 * byte - Kbyte - Mbyte - Gbyte - Tbyte - ...
+			 * 1024 - 1024 - 1024 - 1024 - 1024
+			 * 10Mbyte = 10*1024*1024byte
+			 */
+			int maxSize = 10*1024*1024; // 10메가바이트
+			
+			// 2. 전달된 파일의 파일명 수정 및 서버에 업로드 작업
+			
+			// 3. DB에 기록할 데이터들 뽑아서 vo에 주섬주섬 담기
+			
+			// 4. Service 요청 (요청처리)
+			
+			// 5. 응답뷰 지정			
+			
+		}
+				
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

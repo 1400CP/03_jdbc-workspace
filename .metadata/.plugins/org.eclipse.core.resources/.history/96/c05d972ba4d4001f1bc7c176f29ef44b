@@ -1,0 +1,14 @@
+package com.kh.employee.service;
+
+import com.kh.employee.model.vo.Employee;
+
+public class EmployeeService {
+	
+	public void insertEmployee(Employee e) {
+		
+		
+		
+	}
+	
+
+}

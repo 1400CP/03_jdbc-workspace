@@ -1,0 +1,14 @@
+package com.kh.board.model.vo;
+
+public class Attachment {
+	
+	FILE_NO int fileNo;
+	REF_BNO 
+	ORIGIN_NAME
+	CHANGE_NAME
+	FILE_PATH
+	UPLOAD_DATE
+	FILE_LEVEL
+	STATUS
+
+}

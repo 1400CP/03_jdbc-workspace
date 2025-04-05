@@ -1,0 +1,14 @@
+package com.kh.model.vo;
+
+import oracle.sql.DATE;
+
+public class ProductIO {
+	
+	private int ioNum;
+	private String productId;
+	private String productName;
+	private DATE ioDate;
+	private int amount;
+	private String status;
+
+}

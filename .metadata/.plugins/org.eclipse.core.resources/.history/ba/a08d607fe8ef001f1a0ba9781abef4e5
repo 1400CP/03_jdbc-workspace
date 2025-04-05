@@ -1,0 +1,16 @@
+package com.kh.notice.vo;
+
+import java.sql.Date;
+
+public class Notice {
+	
+	NOTICE_NO private int noticeNo;
+	NOTICE_TITLE private String noticeTitle;
+	NOTICE_CONTENT private String noticeContent;
+	NOTICE_WRITER private String writer;
+	// int로 해도 되지만, 실제로 조회할 때는 유저로 볼 수 있도록 String으로
+	COUNT private int count;
+	CREATE_DATE private Date createDate;
+	STATUS private String status;
+
+}
